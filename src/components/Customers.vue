@@ -1,40 +1,79 @@
 <template>
-  <div class="customers">
-    <h1>Manage customers</h1>
-    <el-table :data="customers" stripe style="width: 90%; margin-left:5%">
-      <el-table-column prop="first_name" label="First Name" width="180">
-      </el-table-column>
-      <el-table-column prop="last_name" label="Last Name" width="180">
-      </el-table-column>
-      <el-table-column prop="email" label="Email">
-      </el-table-column>
-    </el-table>
+  <div class="customers" style="width:80%">
+    <Alert v-if="alert" v-bind:message="alert"></Alert>
+    <h1 class="page-header">Manage customers</h1>
+    <input class="form-control" placeholder="Enter Last Name" v-model="filterInput">
+    <br><br>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="customer in filterBy(customers, filterInput)">
+            <td>{{customer.first_name}}</td>
+            <td>{{customer.last_name}}</td>
+            <td>{{customer.email}}</td>
+            <td><router-link v-bind:to="'/customer/'+customer.id"><el-button type="default">View</el-button></router-link></td>
+          </tr>
+        </tbody>
+</table>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'customers',
-  data () {
-    return {
-      customers:[]
+  import Alert from './Alert'
+  export default {
+    name: 'customers',
+    data () {
+      return {
+        customers:[],
+        alert:'',
+        filterInput: ''
+      }
+    },
+    methods: {
+      fetchCustomers(){
+        this.$http.get('http://slimapp/api/customers')
+        .then(function(response){
+          this.customers = response.body;
+        });
+      },
+      filterBy(list, value){
+        value = value.charAt(0).toUpperCase()+ value.slice(1)
+        return list.filter(function(customer){
+          return customer.last_name.indexOf(value) > -1
+        })
+      },
+      handleEdit(index, row) {
+        console.log(index, row)
+      },
+      handleDelete(index, row) {
+        console.log(index, row)
+      }
+    },
+    created: function(){
+      if(this.$route.query.alert){
+        this.alert = this.$route.query.alert
+      }
+      this.fetchCustomers()
+    },
+    updated: function(){
+      this.fetchCustomers()
+    },
+    components: {
+      Alert
     }
-  },
-  methods: {
-    fetchCustomers(){
-      this.$http.get('http://slimapp/api/customers')
-      .then(function(response){
-        this.customers = response.body;
-      });
-    }
-  },
-  created: function(){
-    this.fetchCustomers();
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.customers{
+  margin-left:10%;
+}
 </style>
