@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="customer in filterBy(customers, filterInput)">
+          <tr v-for="customer in filterBy(customers, filterInput)" v-bind:key="customer.id">
             <td>{{customer.first_name}}</td>
             <td>{{customer.last_name}}</td>
             <td>{{customer.email}}</td>

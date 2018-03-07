@@ -3,14 +3,15 @@
     <router-link to="/">Back</router-link>
     <h1 class="page-header">{{ customer.first_name }} {{ customer.last_name }}</h1>
 
-    <span style="float:right"><el-button v-on:click="deleteCustomer(customer.id)" type="danger">Delete</el-button></span>&nbsp&nbsp
+    <span style="float:right"><el-button v-on:click="deleteCustomer(customer.id)" type="danger">Delete</el-button> </span>
     <router-link v-bind:to="'/edit/'+customer.id" style="float:right; margin-right:5px;"><el-button type="primary">Edit</el-button></router-link>
-    <br><br>
+    <br>
+    <br>
     <ul class="list-group">
            <li class="list-group-item"><i class="el-icon-phone"></i> {{ customer.phone }}</li>
            <li class="list-group-item"><i class="el-icon-message"></i> {{ customer.email }}</li>
        </ul>
-       <br>
+       <br />
        <ul class="list-group">
            <li class="list-group-item"> {{ customer.address }}</li>
            <li class="list-group-item">{{ customer.city }}</li>
