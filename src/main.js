@@ -4,10 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
 import vueResource from 'vue-resource'
-import Customers from './components/Customers.vue'
-import About from './components/About.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+
+// Import components
+import Customers from './components/Customers.vue'
+import About from './components/About.vue'
+import Add from './components/Add.vue'
+import CustomerDetails from './components/CustomerDetails'
+import Edit from './components/Edit.vue'
 
 Vue.config.productionTip = false
 
@@ -20,7 +25,10 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path:'/', component:Customers },
-    { path:'/about', component:About }
+    { path:'/about', component:About },
+    { path:'/add', component:Add },
+    { path:'/customer/:id', component:CustomerDetails },
+    { path:'/edit/:id', component:Edit }
   ]
 })
 
